@@ -7,10 +7,6 @@ class Bejeweled {
 
     this.playerTurn = "O";
 
-    this.emojis = ["🥝", "🍓", "🥥", "🍇", "🍊", "🍋"];
-
-    console.log(this.emojis[0]);
-    console.log(this.emojis[0].length);
     this.cursor = new Cursor(8, 8);
 
     Screen.initialize(8, 8);
@@ -19,7 +15,7 @@ class Bejeweled {
     Screen.addCommand('a', 'move cursor left', this.cursor.left);
     Screen.addCommand('s', 'move cursor down', this.cursor.down);
     Screen.addCommand('d', 'move cursor right', this.cursor.right);
-    Screen.addCommand('e', 'select jewel', this.cursor.select);
+    Screen.addCommand('e', 'select jewel', this.select);
 
     // Initialize this
     this.grid = Bejeweled.createGrid(8, 8);
@@ -27,6 +23,17 @@ class Bejeweled {
     this.cursor.setBackgroundColor();
     Screen.render();
   }
+
+  select = () => {
+    if (this.cursor.selected != null)
+    {
+      Bejeweled.swap(this.grid, this.cursor.selected, {row: this.cursor.row, col: this.cursor.col});
+    }
+    this.cursor.select();
+  }
+
+  static emojis = ["A", "B", "C", "D", "E", "F"];
+
 
   static createGrid(rows, cols)
   {
@@ -39,7 +46,7 @@ class Bejeweled {
       {
         // push a random emoji for each col
         let emojiNumber = Math.floor(Math.random() * 6);
-        let currentEmoji = this.emojis[emojiNumber];
+        let currentEmoji = Bejeweled.emojis[emojiNumber];
         initialGrid[i].push(currentEmoji);
         Screen.setGrid(i, j, currentEmoji);
       }
@@ -47,43 +54,63 @@ class Bejeweled {
     return initialGrid;
   }
 
-  static trySwap(grid, first, second)
+  static trySwap(tempGrid, first, second)
   {
+    debugger;
     // create at temporary grid to try out swap
-    let tempGrid = grid.slice();
     let tempEmoji = tempGrid[first.row][first.col];
     tempGrid[first.row][first.col] = tempGrid[second.row][second.col];
     tempGrid[second.row][second.col] = tempEmoji;
     return Bejeweled.checkForMatches(tempGrid);
   }
 
+  static swap(grid, first, second)
+  {
+    let tempGrid = Bejeweled.createTempGrid(grid);
+    let attempt = Bejeweled.trySwap(tempGrid, first, second)
+    if (attempt)
+    {
+      // swap the two
+      let firstEmoji = grid[first.row][first.col];
+      let secondEmoji = grid[second.row][second.col];
+      grid[first.row][first.col] = secondEmoji;
+      grid[second.row][second.col] = firstEmoji;
+
+      //Screen.setMessage(`firstEmoji: ${testEmoji1} ${tempFirstEmoji} ${first.row} ${first.col} \nsecondEmoji: ${testEmoji2} ${tempSecondEmoji} ${second.row} ${second.col}`);
+      // update screen
+      Screen.setGrid(first.row, first.col, secondEmoji);
+      Screen.setGrid(second.row, second.col, firstEmoji);
+      Screen.render();
+    }
+  }
+
+  static createTempGrid(grid) {
+    let tempGrid = [];
+    for(let i = 0; i < grid.length; i++)
+    {
+      tempGrid.push(grid[i].slice);
+    }
+    return tempGrid;
+  }
+
   static checkForMatches(grid) {
-    let allMatches = [];
-
     let horizontalMatches = Bejeweled.checkForHorizontal(grid);
-    if (horizontalMatches)
-    {
-      allMatches = allMatches.concat(horizontalMatches);
-    }
 
-    let verticalMatches = Bejeweled.checkForVertical(grid);
-    if (verticalMatches)
-    {
-      allMatches = allMatches.concat(verticalMatches);
-    }
+    return horizontalMatches;
+    // let verticalMatches = Bejeweled.checkForVertical(grid);
 
-    if (horizontalMatches || verticalMatches)
-    {
-      return allMatches;
-    }
+    // if (horizontalMatches || verticalMatches)
+    // {
+    //   return true;
+    // }
 
-    return false;
+    // return false;
 
   }
 
   static checkForHorizontal(grid)
   {
-    let horizontalMatches = [];
+    let horizontalMatches = false;
     for (let row = 0; row < grid.length; row++)
     {
       for (let col = 2; col < grid.length; col++)
@@ -91,17 +118,10 @@ class Bejeweled {
         if (grid[row][col] === grid[row][col - 1] &&
             grid[row][col - 1] === grid[row][col - 2])
         {
-          horizontalMatches.push([{row: row, col: col - 2},
-                                  {row: row, col: col - 1},
-                                  {row: row, col: col}]);
+          horizontalMatches = true;
         }
       }
     }
-    if (horizontalMatches.length === 0)
-    {
-      return false;
-    }
-    console.log(horizontalMatches);
     return horizontalMatches;
   }
 
