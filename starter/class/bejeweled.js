@@ -22,13 +22,13 @@ class Bejeweled {
     Screen.addCommand('e', 'select jewel', this.cursor.select);
 
     // Initialize this
-    this.grid = this.createGrid(8, 8);
+    this.grid = Bejeweled.createGrid(8, 8);
 
     this.cursor.setBackgroundColor();
     Screen.render();
   }
 
-  createGrid(rows, cols)
+  static createGrid(rows, cols)
   {
     let initialGrid = [];
     for(let i = 0; i < rows; i++)
