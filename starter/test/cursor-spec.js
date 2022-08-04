@@ -118,4 +118,5 @@ describe ('Cursor', function () {
     expect(swapSpy).to.have.been.called;
   })
 
+
 });

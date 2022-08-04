@@ -1,6 +1,7 @@
 const { expect } = require('chai');
 
 const Bejeweled = require("../class/bejeweled.js");
+const Screen = require("../class/screen");
 
 describe ('Bejeweled', function () {
 
@@ -53,7 +54,7 @@ describe ('Bejeweled', function () {
       expect(game.trySwap({row: 0, col: 0}, {row: 1, col: 1})).to.be.false;
     });
 
-    it("should reject an valid swap creating no match", () => {
+    it("should reject a valid swap creating no match", () => {
       expect(game.trySwap({row: 0, col: 0}, {row: 0, col: 0})).to.be.false;
     });
 
@@ -79,5 +80,6 @@ describe ('Bejeweled', function () {
             [game.emojis[0], game.emojis[1], game.emojis[2], game.emojis[3]]];
     expect(game.anyMoves()).to.equal(false);
   });
+
 
 });

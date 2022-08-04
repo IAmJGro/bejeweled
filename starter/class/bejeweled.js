@@ -9,13 +9,20 @@ class Bejeweled {
 
     this.emojis = ["🥝", "🍓", "🥥", "🍇", "🍊", "🍋"];
 
-    // Initialize this
-    this.grid = this.createGrid(8, 8);
-
+    console.log(this.emojis[0]);
+    console.log(this.emojis[0].length);
     this.cursor = new Cursor(8, 8);
 
     Screen.initialize(8, 8);
     Screen.setGridlines(false);
+    Screen.addCommand('w', 'move cursor up', this.cursor.up);
+    Screen.addCommand('a', 'move cursor left', this.cursor.left);
+    Screen.addCommand('s', 'move cursor down', this.cursor.down);
+    Screen.addCommand('d', 'move cursor right', this.cursor.right);
+    Screen.addCommand('e', 'select jewel', this.cursor.select);
+
+    // Initialize this
+    this.grid = this.createGrid(8, 8);
 
     this.cursor.setBackgroundColor();
     Screen.render();
@@ -34,6 +41,7 @@ class Bejeweled {
         let emojiNumber = Math.floor(Math.random() * 6);
         let currentEmoji = this.emojis[emojiNumber];
         initialGrid[i].push(currentEmoji);
+        Screen.setGrid(i, j, currentEmoji);
       }
     }
     return initialGrid;
@@ -43,7 +51,7 @@ class Bejeweled {
   {
     // create at temporary grid to try out swap
     let tempGrid = this.grid.slice();
-    let tempEmoji = tempGird[first.row][first.col];
+    let tempEmoji = tempGrid[first.row][first.col];
     tempGrid[first.row][first.col] = tempGrid[second.row][second.col];
     tempGrid[second.row][second.col] = tempEmoji;
     return Bejeweled.checkForMatches(tempGrid);
