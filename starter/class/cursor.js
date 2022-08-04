@@ -66,6 +66,10 @@ class Cursor {
    Screen.render();
   }
 
+  select = () => {
+
+  }
+
 }
 
 
