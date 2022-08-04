@@ -21,7 +21,7 @@ class Bejeweled {
     this.grid = Bejeweled.createGrid(8, 8);
 
     this.cursor.setBackgroundColor();
-    Screen.render();
+    Bejeweled.updateDisplayGrid(this.grid);
   }
 
   select = () => {
@@ -34,6 +34,17 @@ class Bejeweled {
 
   static emojis = ["🥝", "🍓", "🥥", "🍇", "🍊", "🍋"];
 
+  static updateDisplayGrid(grid)
+  {
+    for (let row = 0; row < grid.length; row++)
+    {
+      for (let col = 0; col < grid[row].length; col++)
+      {
+        Screen.setGrid(row, col, grid[row][col]);
+        Screen.render();
+      }
+    }
+  }
 
   static createGrid(rows, cols)
   {
@@ -50,6 +61,7 @@ class Bejeweled {
         Screen.setGrid(i, j, currentEmoji);
       }
     }
+    Bejeweled.refreshGrid(initialGrid);
     return initialGrid;
   }
 
@@ -61,9 +73,15 @@ class Bejeweled {
   }
 
   static refreshGrid(grid) {
-    Bejeweled.clearAllMatches(grid);
-    Bejeweled.dropEmoji(grid);
-    Bejeweled.refillGrid(grid);
+    while (Bejeweled.checkForAnyMatches(grid))
+    {
+      Bejeweled.clearAllMatches(grid);
+      Bejeweled.sleep(200, grid);
+      Bejeweled.dropEmojis(grid);
+      Bejeweled.sleep(200, grid);
+      Bejeweled.refillGrid(grid);
+      Bejeweled.sleep(200, grid);
+    }
   }
 
   static clearAllMatches(grid)
@@ -71,7 +89,7 @@ class Bejeweled {
     let allMatches = Bejeweled.getAllMatches(grid);
     for (let i = 0; i < allMatches.length; i++)
     {
-      grid[allMatches[i].row][allMatches[i].col] = " ";
+      grid[allMatches[i].row][allMatches[i].col] = "  ";
     }
   }
 
@@ -158,7 +176,7 @@ class Bejeweled {
       let dropDistance = 0; // to store how far to drop
       for(let row = grid.length - 1; row >= 0; row--)
       {
-        if (grid[row][col] === " ")
+        if (grid[row][col] === "  ")
         {
           dropDistance++;// increase drop distance for each blank
         }
@@ -166,7 +184,7 @@ class Bejeweled {
         {
           // drop by # of blanks so far
           grid[row + dropDistance][col] = grid[row][col];
-          grid[row][col] = " ";
+          grid[row][col] = "  ";
         }
       }
     }
@@ -178,7 +196,7 @@ class Bejeweled {
     {
       for (let col = 0; col < grid[row].length; col++)
       {
-        if(grid[row][col] === " ")
+        if(grid[row][col] === "  ")
         {
           grid[row][col] = Bejeweled.getRandomEmoji();
         }
@@ -213,6 +231,8 @@ class Bejeweled {
       Screen.setGrid(second.row, second.col, firstEmoji);
       Screen.render();
     }
+    Bejeweled.refreshGrid(grid);
+    Bejeweled.updateDisplayGrid(grid);
   }
 
   static createTempGrid(grid) {
@@ -274,6 +294,15 @@ class Bejeweled {
     return verticalMatches;
   }
 
+  static sleep(milliseconds, grid)
+  {
+    Bejeweled.updateDisplayGrid(grid);
+    const startDate = Date.now();
+    let currentDate;
+    do {
+      currentDate = Date.now();
+    } while(currentDate - milliseconds < startDate)
+  }
 }
 
 module.exports = Bejeweled;

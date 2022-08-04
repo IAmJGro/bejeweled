@@ -39,29 +39,29 @@ describe ('Bejeweled', function () {
               [Bejeweled.emojis[0], Bejeweled.emojis[2], Bejeweled.emojis[0], Bejeweled.emojis[3]],
               [Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[1], Bejeweled.emojis[3]]];
       Bejeweled.clearAllMatches(grid);
-      expect(grid).to.deep.equal([[Bejeweled.emojis[3], Bejeweled.emojis[2], " ", " "],
-                                  [" ", " ", " ", " "],
-                                  [" ", Bejeweled.emojis[2], " ", " "],
-                                  [" ", Bejeweled.emojis[0], Bejeweled.emojis[1], " "]]);
+      expect(grid).to.deep.equal([[Bejeweled.emojis[3], Bejeweled.emojis[2], "  ", "  "],
+                                  ["  ", "  ", "  ", "  "],
+                                  ["  ", Bejeweled.emojis[2], "  ", "  "],
+                                  ["  ", Bejeweled.emojis[0], Bejeweled.emojis[1], "  "]]);
     });
 
     it("should drop all current emojis on call of dropEmojis", () => {
-      grid = [[Bejeweled.emojis[3], Bejeweled.emojis[2], " ", " "],
-              [" ", " ", " ", " "],
-              [" ", Bejeweled.emojis[2], " ", " "],
-              [" ", Bejeweled.emojis[0], Bejeweled.emojis[1], " "]];
+      grid = [[Bejeweled.emojis[3], Bejeweled.emojis[2], "  ", "  "],
+              ["  ", "  ", "  ", "  "],
+              ["  ", Bejeweled.emojis[2], "  ", "  "],
+              ["  ", Bejeweled.emojis[0], Bejeweled.emojis[1], "  "]];
       Bejeweled.dropEmojis(grid);
-      expect(grid).to.deep.equal([[" ", " ", " ", " "],
-                                  [" ", Bejeweled.emojis[2], " ", " "],
-                                  [" ", Bejeweled.emojis[2], " ", " "],
-                                  [Bejeweled.emojis[3], Bejeweled.emojis[0], Bejeweled.emojis[1], " "]]);
+      expect(grid).to.deep.equal([["  ", "  ", "  ", "  "],
+                                  ["  ", Bejeweled.emojis[2], "  ", "  "],
+                                  ["  ", Bejeweled.emojis[2], "  ", "  "],
+                                  [Bejeweled.emojis[3], Bejeweled.emojis[0], Bejeweled.emojis[1], "  "]]);
     });
 
     it("should refill the grid with random emojis on call of refillGrid", () => {
-      grid = [[" ", " ", " ", " "],
-              [" ", Bejeweled.emojis[2], " ", " "],
-              [" ", Bejeweled.emojis[2], " ", " "],
-              [Bejeweled.emojis[3], Bejeweled.emojis[0], Bejeweled.emojis[1], " "]];
+      grid = [["  ", "  ", "  ", "  "],
+              ["  ", Bejeweled.emojis[2], "  ", "  "],
+              ["  ", Bejeweled.emojis[2], "  ", "  "],
+              [Bejeweled.emojis[3], Bejeweled.emojis[0], Bejeweled.emojis[1], "  "]];
       Bejeweled.refillGrid(grid);
       expect(checkFilled(grid)).to.be.true;
     });
