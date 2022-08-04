@@ -8,17 +8,27 @@ describe ('Bejeweled', function () {
   // Add tests for setting up a basic board
   let grid;
 
-  it("creates a grid with random emojis", () => {
-
-    grid = Bejeweled.createGrid(9, 9);
-
+  function checkFilled(grid)
+  {
+    let gridFilled = true;
     for (let row = 0; row < grid.length; row++)
     {
       for (let col = 0; col < grid[row].length; col++)
       {
-        expect(Bejeweled.emojis.includes(grid[row][col])).to.be.true;
+        if (!Bejeweled.emojis.includes(grid[row][col]))
+        {
+          gridFilled = false;
+        }
       }
     }
+    return gridFilled;
+  }
+
+  it("creates a grid with random emojis", () => {
+
+    grid = Bejeweled.createGrid(9, 9);
+
+    expect(checkFilled(grid)).to.be.true;
   });
 
   context("clears all matches", () => {
@@ -45,6 +55,15 @@ describe ('Bejeweled', function () {
                                   [" ", Bejeweled.emojis[2], " ", " "],
                                   [" ", Bejeweled.emojis[2], " ", " "],
                                   [Bejeweled.emojis[3], Bejeweled.emojis[0], Bejeweled.emojis[1], " "]]);
+    });
+
+    it("should refill the grid with random emojis on call of refillGrid", () => {
+      grid = [[" ", " ", " ", " "],
+              [" ", Bejeweled.emojis[2], " ", " "],
+              [" ", Bejeweled.emojis[2], " ", " "],
+              [Bejeweled.emojis[3], Bejeweled.emojis[0], Bejeweled.emojis[1], " "]];
+      Bejeweled.refillGrid(grid);
+      expect(checkFilled(grid)).to.be.true;
     });
   });
 

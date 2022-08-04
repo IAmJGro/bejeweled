@@ -45,8 +45,7 @@ class Bejeweled {
       for(let j = 0; j < cols; j++)
       {
         // push a random emoji for each col
-        let emojiNumber = Math.floor(Math.random() * 6);
-        let currentEmoji = Bejeweled.emojis[emojiNumber];
+        let currentEmoji = Bejeweled.getRandomEmoji();
         initialGrid[i].push(currentEmoji);
         Screen.setGrid(i, j, currentEmoji);
       }
@@ -54,9 +53,17 @@ class Bejeweled {
     return initialGrid;
   }
 
+  static getRandomEmoji()
+  {
+    let emojiNumber = Math.floor(Math.random() * 6);
+    return Bejeweled.emojis[emojiNumber];
+
+  }
+
   static refreshGrid(grid) {
     Bejeweled.clearAllMatches(grid);
     Bejeweled.dropEmoji(grid);
+    Bejeweled.refillGrid(grid);
   }
 
   static clearAllMatches(grid)
@@ -160,6 +167,20 @@ class Bejeweled {
           // drop by # of blanks so far
           grid[row + dropDistance][col] = grid[row][col];
           grid[row][col] = " ";
+        }
+      }
+    }
+  }
+
+  static refillGrid(grid)
+  {
+    for (let row = 0; row < grid.length; row++)
+    {
+      for (let col = 0; col < grid[row].length; col++)
+      {
+        if(grid[row][col] === " ")
+        {
+          grid[row][col] = Bejeweled.getRandomEmoji();
         }
       }
     }
