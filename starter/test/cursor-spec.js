@@ -69,7 +69,7 @@ describe ('Cursor', function () {
     expect([cursor.row, cursor.col]).to.deep.equal([0, 0]);
   });
 
-  context("gem selection - center", () => {
+  context("Gem selection", () => {
 
     beforeEach(() => {
       cursor.row = 1;
@@ -81,11 +81,6 @@ describe ('Cursor', function () {
       expect(cursor.selected).to.deep.equal({row: 1, col: 1});
     });
 
-    it ("returns adjoining values", () =>
-    {
-      expect(cursor.getAdjoining()).to.deep.equal([{row: 0, col: 1}, {row: 1, col: 0}, {row: 2, col: 1}, {row: 1, col: 2}]);
-    });
-
     it ("only permits movement to adjoining squares after selection", () => {
       cursor.select();
       cursor.left();
@@ -93,12 +88,6 @@ describe ('Cursor', function () {
       cursor.up();
       expect([cursor.row, cursor.col]).to.deep.equal([1, 0]);
     });
-  });
-
-  it("returns only adjoining values on the board", () => {
-    cursor.row = 0;
-    cursor.col = 0;
-    expect(cursor.getAdjoining()).to.deep.equal([{row: 1, col: 0}, {row: 0, col: 1}]);
   });
 
   /*context("should swap valid pieces", () => {

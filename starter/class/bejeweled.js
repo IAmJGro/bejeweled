@@ -32,7 +32,7 @@ class Bejeweled {
     this.cursor.select();
   }
 
-  static emojis = ["A", "B", "C", "D", "E", "F"];
+  static emojis = ["🥝", "🍓", "🥥", "🍇", "🍊", "🍋"];
 
 
   static createGrid(rows, cols)
@@ -54,6 +54,95 @@ class Bejeweled {
     return initialGrid;
   }
 
+  static refreshGrid(grid) {
+    Bejeweled.clearAllMatches(grid);
+  }
+
+
+  static clearAllMatches(grid)
+  {
+    let allMatches = Bejeweled.getAllMatches(grid);
+    for (let i = 0; i < allMatches.length; i++)
+    {
+      grid[allMatches[i].row][allMatches[i].col] = " ";
+    }
+  }
+
+  static getAllMatches(grid) {
+    let allMatches = [];
+
+    // get all horizontal matches
+
+    for (let row = 0; row < grid.length; row++)
+    {
+      let currentEmoji = grid[row][0];
+      let numInARow = 1;
+      for (let col = 1; col < grid[row].length; col++)
+      {
+        // determine # in a row
+        let testEmoji = grid[row][col];
+        if (currentEmoji === testEmoji)
+        {
+          numInARow++;
+        }
+        else
+        {
+          currentEmoji = testEmoji;
+          numInARow = 1;
+        }
+        // push if there are 3 or more in a row
+        if (numInARow === 3)
+        {
+          for (let i = 0; i < 3; i++)
+          {
+            allMatches.push({row: row, col: col - i});
+          }
+        }
+        // will have already pushed prior ones if > 3
+        if (numInARow > 3)
+        {
+          allMatches.push({row: row, col: col});
+        }
+      }
+    }
+
+    // get all vertical matches
+    for (let col = 0; col < grid[0].length; col++)
+    {
+      let currentEmoji = grid[0][col];
+      let numInARow = 1;
+      for (let row = 1; row < grid.length; row++)
+      {
+        // determine # in a row
+        let testEmoji = grid[row][col];
+        if (currentEmoji === testEmoji)
+        {
+          numInARow++;
+        }
+        else
+        {
+          currentEmoji = testEmoji;
+          numInARow = 1;
+        }
+        // push if there are 3 or more in a row
+        if (numInARow === 3)
+        {
+          for (let i = 0; i < 3; i++)
+          {
+            allMatches.push({row: row - i, col: col});
+          }
+        }
+        // will have already pushed prior ones if > 3
+        if (numInARow > 3)
+        {
+          allMatches.push({row: row, col: col});
+        }
+      }
+    }
+
+    return allMatches;
+  }
+
   static trySwap(tempGrid, first, second)
   {
     debugger;
@@ -61,7 +150,7 @@ class Bejeweled {
     let tempEmoji = tempGrid[first.row][first.col];
     tempGrid[first.row][first.col] = tempGrid[second.row][second.col];
     tempGrid[second.row][second.col] = tempEmoji;
-    return Bejeweled.checkForMatches(tempGrid);
+    return Bejeweled.checkForAnyMatches(tempGrid);
   }
 
   static swap(grid, first, second)
@@ -93,7 +182,9 @@ class Bejeweled {
     return tempGrid;
   }
 
-  static checkForMatches(grid) {
+
+
+  static checkForAnyMatches(grid) {
     let horizontalMatches = Bejeweled.checkForHorizontal(grid);
 
     return horizontalMatches;

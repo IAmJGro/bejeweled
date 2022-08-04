@@ -7,32 +7,44 @@ describe ('Bejeweled', function () {
 
   // Add tests for setting up a basic board
   let grid;
-  let game;
-
-  beforeEach(() => {
-    game = new Bejeweled();
-    grid = game.grid;
-  });
 
   it("creates a grid with random emojis", () => {
+
+    let grid = Bejeweled.createGrid(9, 9);
 
     for (let row = 0; row < grid.length; row++)
     {
       for (let col = 0; col < grid[row].length; col++)
       {
-        expect(game.emojis.includes(grid[row][col])).to.be.true;
+        expect(Bejeweled.emojis.includes(grid[row][col])).to.be.true;
       }
     }
   });
 
-  // Add tests for a valid swap that matches 3
-
-  context("recognizes a valid swap", () => {
+  context("clears all matches", () => {
     beforeEach(() => {
-      game.grid = [[game.emojis[0], game.emojis[0], game.emojis[1], game.emojis[2]],
-              [game.emojis[3], game.emojis[2], game.emojis[0], game.emojis[3]],
-              [game.emojis[3], game.emojis[2], game.emojis[0], game.emojis[3]],
-              [game.emojis[0], game.emojis[0], game.emojis[1], game.emojis[2]]];
+      grid = [[Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[3]],
+              [Bejeweled.emojis[3], Bejeweled.emojis[2], Bejeweled.emojis[0], Bejeweled.emojis[3]],
+              [Bejeweled.emojis[3], Bejeweled.emojis[2], Bejeweled.emojis[0], Bejeweled.emojis[3]],
+              [Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[1], Bejeweled.emojis[3]]];
+    });
+
+    it("should clear all matches on call of clearAllMatches(grid)", () => {
+      Bejeweled.clearAllMatches(grid);
+      expect(grid).to.deep.equal([[" ", " ", " ", " "],
+                                  [Bejeweled.emojis[3], Bejeweled.emojis[2], " ", " "],
+                                  [Bejeweled.emojis[3], Bejeweled.emojis[2], " ", " "],
+                                  [Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[1], " "]]);
+    })
+  });
+
+  // Add tests for a valid swap that matches 3
+  /*context("recognizes a valid swap", () => {
+    beforeEach(() => {
+      grid = [[Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[1], Bejeweled.emojis[2]],
+              [Bejeweled.emojis[3], Bejeweled.emojis[2], Bejeweled.emojis[0], Bejeweled.emojis[3]],
+              [Bejeweled.emojis[3], Bejeweled.emojis[2], Bejeweled.emojis[0], Bejeweled.emojis[3]],
+              [Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[1], Bejeweled.emojis[2]]];
     });
 
     it("should accept a valid swap creating a horizontal match", () => {
@@ -73,6 +85,7 @@ describe ('Bejeweled', function () {
   });
 
   // Add tests to check if there are no possible valid moves
+
   it ("should be able to detect no valid moves", () => {
     grid = [[game.emojis[0], game.emojis[1], game.emojis[2], game.emojis[3]],
             [game.emojis[4], game.emojis[5], game.emojis[0], game.emojis[1]],
@@ -80,6 +93,6 @@ describe ('Bejeweled', function () {
             [game.emojis[0], game.emojis[1], game.emojis[2], game.emojis[3]]];
     expect(game.anyMoves()).to.equal(false);
   });
-
+*/
 
 });
