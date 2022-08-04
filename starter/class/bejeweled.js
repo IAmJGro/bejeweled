@@ -50,7 +50,7 @@ class Bejeweled {
   static trySwap(grid, first, second)
   {
     // create at temporary grid to try out swap
-    let tempGrid = this.grid.slice();
+    let tempGrid = grid.slice();
     let tempEmoji = tempGrid[first.row][first.col];
     tempGrid[first.row][first.col] = tempGrid[second.row][second.col];
     tempGrid[second.row][second.col] = tempEmoji;
