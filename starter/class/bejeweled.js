@@ -47,7 +47,7 @@ class Bejeweled {
     return initialGrid;
   }
 
-  trySwap(first, second)
+  static trySwap(grid, first, second)
   {
     // create at temporary grid to try out swap
     let tempGrid = this.grid.slice();
@@ -66,10 +66,10 @@ class Bejeweled {
       allMatches = allMatches.concat(horizontalMatches);
     }
 
-    let verticalMatches = Bejeweled.checkForHorizontal(grid);
-    if (horizontalMatches)
+    let verticalMatches = Bejeweled.checkForVertical(grid);
+    if (verticalMatches)
     {
-      allMatches = allMatches.concat(horizontalMatches);
+      allMatches = allMatches.concat(verticalMatches);
     }
 
     if (horizontalMatches || verticalMatches)
@@ -83,7 +83,26 @@ class Bejeweled {
 
   static checkForHorizontal(grid)
   {
-    return false;
+    let horizontalMatches = [];
+    for (let row = 0; row < grid.length; row++)
+    {
+      for (let col = 2; col < grid.length; col++)
+      {
+        if (grid[row][col] === grid[row][col - 1] &&
+            grid[row][col - 1] === grid[row][col - 2])
+        {
+          horizontalMatches.push([{row: row, col: col - 2},
+                                  {row: row, col: col - 1},
+                                  {row: row, col: col}]);
+        }
+      }
+    }
+    if (horizontalMatches.length === 0)
+    {
+      return false;
+    }
+    console.log(horizontalMatches);
+    return horizontalMatches;
   }
 
   static checkForVertical(grid)

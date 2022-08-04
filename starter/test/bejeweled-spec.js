@@ -29,21 +29,21 @@ describe ('Bejeweled', function () {
 
   context("recognizes a valid swap", () => {
     beforeEach(() => {
-      grid = [[game.emojis[0], game.emojis[0], game.emojis[1], game.emojis[2]],
+      game.grid = [[game.emojis[0], game.emojis[0], game.emojis[1], game.emojis[2]],
               [game.emojis[3], game.emojis[2], game.emojis[0], game.emojis[3]],
               [game.emojis[3], game.emojis[2], game.emojis[0], game.emojis[3]],
               [game.emojis[0], game.emojis[0], game.emojis[1], game.emojis[2]]];
     });
 
     it("should accept a valid swap creating a horizontal match", () => {
-      expect(game.trySwap({row: 0, col: 2}, {row: 1, col: 2})).to.be.true;
+      expect(Bejeweled.trySwap(game.grid, {row: 0, col: 2}, {row: 1, col: 2})).to.be.true;
       game.swap({row: 0, col: 2}, {row: 1, col: 2});
       expect(game.clearMatches()).to.be.greaterThan(0);
       expect(game.emojis.includes(grid[0][0])).to.be.true;
     });
 
     it("should accept a valid swap creating a vertical match", () => {
-      expect(game.trySwap({row: 0, col: 1}, {row: 0, col: 2})).to.be.true;
+      expect(Bejeweled.trySwap(game.grid, {row: 0, col: 1}, {row: 0, col: 2})).to.be.true;
       game.swap({row: 0, col: 2}, {row: 1, col: 2});
       expect(game.clearMatches()).to.be.greaterThan(0);
       expect(game.emojis.includes(grid[0][2])).to.be.true;
@@ -51,11 +51,11 @@ describe ('Bejeweled', function () {
 
 
     it("should reject an invalid swap", () => {
-      expect(game.trySwap({row: 0, col: 0}, {row: 1, col: 1})).to.be.false;
+      expect(Bejeweled.trySwap(game.grid, {row: 0, col: 0}, {row: 1, col: 1})).to.be.false;
     });
 
     it("should reject a valid swap creating no match", () => {
-      expect(game.trySwap({row: 0, col: 0}, {row: 0, col: 0})).to.be.false;
+      expect(Bejeweled.trySwap(game.grid, {row: 0, col: 0}, {row: 0, col: 0})).to.be.false;
     });
 
   });
@@ -66,7 +66,7 @@ describe ('Bejeweled', function () {
             [game.emojis[1], game.emojis[1], game.emojis[2], game.emojis[0]],
             [game.emojis[0], game.emojis[0], game.emojis[1], game.emojis[2]]];
 
-    expect(game.trySwap({row: 2, col: 2}, {row: 3, col: 2})).to.be.true;
+    expect(Bejeweled.trySwap(game.grid, {row: 2, col: 2}, {row: 3, col: 2})).to.be.true;
     game.swap({row: 2, col: 2}, {row: 3, col: 2});
     expect(game.clearMatches()).to.be.greaterThan(1);
     expect(game.emojis.includes(grid[0][2])).to.be.true;

@@ -1,3 +1,4 @@
+const Bejeweled = require("./bejeweled");
 const Screen = require("./screen");
 
 class Cursor {
@@ -11,6 +12,8 @@ class Cursor {
 
     this.gridColor = 'black';
     this.cursorColor = 'yellow';
+
+    this.selected = null;
 
   }
 
@@ -67,6 +70,48 @@ class Cursor {
   }
 
   select = () => {
+    if (this.selected === null)
+    {
+      this.selected = {row: this.row, col: this.col};
+    }
+    else
+    {
+      let adjoining = this.getAdjoining();
+      for (let i = 0; i < adjoining.length; i++)
+      {
+        if (adjoining[i].row === this.row && adjoining[i].col === this.col)
+        {
+          Bejeweled.trySwap(grid);
+        }
+      }
+    }
+  }
+
+  getAdjoining = () =>
+  {
+    let adjoiningSpaces = [];
+    //push space above if on board
+    if (this.row > 0)
+    {
+      adjoiningSpaces.push({row: this.row - 1, col: this.col});
+    }
+    //push space on left if on board
+    if (this.col > 0)
+    {
+      adjoiningSpaces.push({row: this.row, col: this.col - 1});
+    }
+    //push space on right if on board
+    if (this.row < this.numRows - 1)
+    {
+      adjoiningSpaces.push({row: this.row + 1, col: this.col})
+    }
+    //push space below if on board
+    if (this.col < this.numCols - 1)
+    {
+      adjoiningSpaces.push({row: this.row, col: this.col + 1})
+    }
+    console.log(adjoiningSpaces);
+    return adjoiningSpaces;
 
   }
 
