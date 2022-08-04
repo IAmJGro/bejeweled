@@ -28,7 +28,9 @@ class Cursor {
   up = () => {
     // move up if not in first row
     this.resetBackgroundColor();
-    if (this.row > 0)
+    if (this.row > 0 &&
+        (this.selected === null ||
+          this.row > this.selected.row - 1 && this.col === this.selected.col))
     {
       this.row--;
     }
@@ -39,7 +41,9 @@ class Cursor {
   down = () => {
     // move down if not in final row
     this.resetBackgroundColor();
-    if (this.row < this.numRows - 1)
+    if (this.row < this.numRows - 1 &&
+        (this.selected === null ||
+          this.row < this.selected.row + 1 && this.col === this.selected.col))
     {
       this.row++;
     }
@@ -50,7 +54,9 @@ class Cursor {
   left = () => {
     // move left if not in first column
     this.resetBackgroundColor();
-    if (this.col > 0)
+    if (this.col > 0 &&
+        (this.selected === null ||
+          this.col > this.selected.col - 1 && this.row === this.selected.row))
     {
       this.col--;
     }
@@ -61,7 +67,9 @@ class Cursor {
   right = () => {
    // move right if not in final column
    this.resetBackgroundColor();
-   if (this.col < this.numCols - 1)
+   if (this.col < this.numCols - 1 &&
+       (this.selected === null ||
+        this.col < this.selected.col + 1 && this.row === this.selected.row))
    {
      this.col++;
    }
