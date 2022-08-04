@@ -10,7 +10,7 @@ describe ('Bejeweled', function () {
 
   it("creates a grid with random emojis", () => {
 
-    let grid = Bejeweled.createGrid(9, 9);
+    grid = Bejeweled.createGrid(9, 9);
 
     for (let row = 0; row < grid.length; row++)
     {
@@ -22,20 +22,30 @@ describe ('Bejeweled', function () {
   });
 
   context("clears all matches", () => {
-    beforeEach(() => {
-      grid = [[Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[3]],
-              [Bejeweled.emojis[3], Bejeweled.emojis[2], Bejeweled.emojis[0], Bejeweled.emojis[3]],
-              [Bejeweled.emojis[3], Bejeweled.emojis[2], Bejeweled.emojis[0], Bejeweled.emojis[3]],
-              [Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[1], Bejeweled.emojis[3]]];
-    });
 
     it("should clear all matches on call of clearAllMatches(grid)", () => {
+      grid = [[Bejeweled.emojis[3], Bejeweled.emojis[2], Bejeweled.emojis[0], Bejeweled.emojis[3]],
+              [Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[3]],
+              [Bejeweled.emojis[0], Bejeweled.emojis[2], Bejeweled.emojis[0], Bejeweled.emojis[3]],
+              [Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[1], Bejeweled.emojis[3]]];
       Bejeweled.clearAllMatches(grid);
+      expect(grid).to.deep.equal([[Bejeweled.emojis[3], Bejeweled.emojis[2], " ", " "],
+                                  [" ", " ", " ", " "],
+                                  [" ", Bejeweled.emojis[2], " ", " "],
+                                  [" ", Bejeweled.emojis[0], Bejeweled.emojis[1], " "]]);
+    });
+
+    it("should drop all current emojis on call of dropEmojis", () => {
+      grid = [[Bejeweled.emojis[3], Bejeweled.emojis[2], " ", " "],
+              [" ", " ", " ", " "],
+              [" ", Bejeweled.emojis[2], " ", " "],
+              [" ", Bejeweled.emojis[0], Bejeweled.emojis[1], " "]];
+      Bejeweled.dropEmojis(grid);
       expect(grid).to.deep.equal([[" ", " ", " ", " "],
-                                  [Bejeweled.emojis[3], Bejeweled.emojis[2], " ", " "],
-                                  [Bejeweled.emojis[3], Bejeweled.emojis[2], " ", " "],
-                                  [Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[1], " "]]);
-    })
+                                  [" ", Bejeweled.emojis[2], " ", " "],
+                                  [" ", Bejeweled.emojis[2], " ", " "],
+                                  [Bejeweled.emojis[3], Bejeweled.emojis[0], Bejeweled.emojis[1], " "]]);
+    });
   });
 
   // Add tests for a valid swap that matches 3

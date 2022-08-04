@@ -56,8 +56,8 @@ class Bejeweled {
 
   static refreshGrid(grid) {
     Bejeweled.clearAllMatches(grid);
+    Bejeweled.dropEmoji(grid);
   }
-
 
   static clearAllMatches(grid)
   {
@@ -141,6 +141,28 @@ class Bejeweled {
     }
 
     return allMatches;
+  }
+
+  static dropEmojis(grid)
+  {
+    for(let col = 0; col < grid[0].length; col++)
+    {
+      // go up from bottom and drop all items
+      let dropDistance = 0; // to store how far to drop
+      for(let row = grid.length - 1; row >= 0; row--)
+      {
+        if (grid[row][col] === " ")
+        {
+          dropDistance++;// increase drop distance for each blank
+        }
+        else if (dropDistance > 0)
+        {
+          // drop by # of blanks so far
+          grid[row + dropDistance][col] = grid[row][col];
+          grid[row][col] = " ";
+        }
+      }
+    }
   }
 
   static trySwap(tempGrid, first, second)
