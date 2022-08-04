@@ -186,10 +186,10 @@ class Bejeweled {
     }
   }
 
-  static trySwap(tempGrid, first, second)
+  static trySwap(grid, first, second)
   {
-    debugger;
     // create at temporary grid to try out swap
+    let tempGrid = Bejeweled.createTempGrid(grid);
     let tempEmoji = tempGrid[first.row][first.col];
     tempGrid[first.row][first.col] = tempGrid[second.row][second.col];
     tempGrid[second.row][second.col] = tempEmoji;
@@ -198,8 +198,7 @@ class Bejeweled {
 
   static swap(grid, first, second)
   {
-    let tempGrid = Bejeweled.createTempGrid(grid);
-    let attempt = Bejeweled.trySwap(tempGrid, first, second)
+    let attempt = Bejeweled.trySwap(grid, first, second)
     if (attempt)
     {
       // swap the two
@@ -220,7 +219,7 @@ class Bejeweled {
     let tempGrid = [];
     for(let i = 0; i < grid.length; i++)
     {
-      tempGrid.push(grid[i].slice);
+      tempGrid.push(grid[i].slice());
     }
     return tempGrid;
   }
@@ -230,15 +229,14 @@ class Bejeweled {
   static checkForAnyMatches(grid) {
     let horizontalMatches = Bejeweled.checkForHorizontal(grid);
 
-    return horizontalMatches;
-    // let verticalMatches = Bejeweled.checkForVertical(grid);
+    let verticalMatches = Bejeweled.checkForVertical(grid);
 
-    // if (horizontalMatches || verticalMatches)
-    // {
-    //   return true;
-    // }
+    if (horizontalMatches || verticalMatches)
+    {
+      return true;
+    }
 
-    // return false;
+    return false;
 
   }
 
@@ -247,7 +245,7 @@ class Bejeweled {
     let horizontalMatches = false;
     for (let row = 0; row < grid.length; row++)
     {
-      for (let col = 2; col < grid.length; col++)
+      for (let col = 2; col < grid[row].length; col++)
       {
         if (grid[row][col] === grid[row][col - 1] &&
             grid[row][col - 1] === grid[row][col - 2])
@@ -261,7 +259,19 @@ class Bejeweled {
 
   static checkForVertical(grid)
   {
-    return false;
+    let verticalMatches = false;
+    for (let col = 0; col < grid[0].length; col++)
+    {
+      for (let row = 2; row < grid.length; row++)
+      {
+        if (grid[row][col] === grid[row - 1][col] &&
+            grid[row - 1][col] === grid[row - 2][col])
+        {
+          verticalMatches = true;
+        }
+      }
+    }
+    return verticalMatches;
   }
 
 }

@@ -78,7 +78,7 @@ describe ('Bejeweled', function () {
 
     it("should accept a valid swap creating a horizontal match", () => {
       expect(Bejeweled.trySwap(grid, {row: 0, col: 2}, {row: 1, col: 2})).to.be.true;
-      //Bejeweled.swap(grid, {row: 0, col: 2}, {row: 1, col: 2});
+      expect(Bejeweled.trySwap(grid, {row: 0, col: 1}, {row: 0, col: 2})).to.be.true;
     });
 /*
     it("should accept a valid swap creating a vertical match", () => {
