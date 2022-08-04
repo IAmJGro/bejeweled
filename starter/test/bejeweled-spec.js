@@ -68,7 +68,7 @@ describe ('Bejeweled', function () {
   });
 
   // Add tests for a valid swap that matches 3
-  /*context("recognizes a valid swap", () => {
+  context("recognizes a valid swap", () => {
     beforeEach(() => {
       grid = [[Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[1], Bejeweled.emojis[2]],
               [Bejeweled.emojis[3], Bejeweled.emojis[2], Bejeweled.emojis[0], Bejeweled.emojis[3]],
@@ -77,12 +77,10 @@ describe ('Bejeweled', function () {
     });
 
     it("should accept a valid swap creating a horizontal match", () => {
-      expect(Bejeweled.trySwap(game.grid, {row: 0, col: 2}, {row: 1, col: 2})).to.be.true;
-      game.swap({row: 0, col: 2}, {row: 1, col: 2});
-      expect(game.clearMatches()).to.be.greaterThan(0);
-      expect(game.emojis.includes(grid[0][0])).to.be.true;
+      expect(Bejeweled.trySwap(grid, {row: 0, col: 2}, {row: 1, col: 2})).to.be.true;
+      //Bejeweled.swap(grid, {row: 0, col: 2}, {row: 1, col: 2});
     });
-
+/*
     it("should accept a valid swap creating a vertical match", () => {
       expect(Bejeweled.trySwap(game.grid, {row: 0, col: 1}, {row: 0, col: 2})).to.be.true;
       game.swap({row: 0, col: 2}, {row: 1, col: 2});
@@ -98,9 +96,9 @@ describe ('Bejeweled', function () {
     it("should reject a valid swap creating no match", () => {
       expect(Bejeweled.trySwap(game.grid, {row: 0, col: 0}, {row: 0, col: 0})).to.be.false;
     });
-
+*/
   });
-
+/*
   it ("should create combos", () => {
     grid = [[game.emojis[0], game.emojis[0], game.emojis[1], game.emojis[2]],
             [game.emojis[3], game.emojis[0], game.emojis[0], game.emojis[1]],
@@ -123,5 +121,6 @@ describe ('Bejeweled', function () {
     expect(game.anyMoves()).to.equal(false);
   });
 */
+
 
 });
