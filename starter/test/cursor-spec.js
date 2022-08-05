@@ -1,7 +1,11 @@
-const { expect } = require('chai');
+const chai = require('chai');
+const expect = chai.expect;
+const spies = require("chai-spies");
+chai.use(spies);
 
 const Cursor = require("../class/cursor.js");
 const Screen = require("../class/screen.js");
+const Bejeweled = require("../class/bejeweled")
 
 describe ('Cursor', function () {
 
@@ -65,7 +69,25 @@ describe ('Cursor', function () {
     expect([cursor.row, cursor.col]).to.deep.equal([0, 0]);
   });
 
+  context("Gem selection", () => {
 
+    beforeEach(() => {
+      cursor.row = 1;
+      cursor.col = 1;
+    })
+
+    it ("process a selection", () => {
+      cursor.select()
+      expect(cursor.selected).to.deep.equal({row: 1, col: 1});
+    });
+
+    it ("only permits movement to adjoining squares after selection", () => {
+      cursor.select();
+      cursor.left();
+      expect([cursor.row, cursor.col]).to.deep.equal([1, 0]);
+      cursor.up();
+      expect([cursor.row, cursor.col]).to.deep.equal([1, 0]);
+    });
+  });
 
 });
-
