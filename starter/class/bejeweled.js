@@ -21,6 +21,7 @@ class Bejeweled {
     this.grid = Bejeweled.createGrid(8, 8);
 
     this.cursor.setBackgroundColor();
+    Screen.setMessage(`Current score: ${Bejeweled.score}`);
     Bejeweled.updateDisplayGrid(this.grid);
   }
 
@@ -34,6 +35,10 @@ class Bejeweled {
 
   static emojis = ["🥝", "🍓", "🥥", "🍇", "🍊", "🍋"];
 
+  static score = 0;
+
+  static combo = 1;
+
   static updateDisplayGrid(grid)
   {
     for (let row = 0; row < grid.length; row++)
@@ -41,9 +46,10 @@ class Bejeweled {
       for (let col = 0; col < grid[row].length; col++)
       {
         Screen.setGrid(row, col, grid[row][col]);
-        Screen.render();
       }
     }
+    Screen.setMessage(`Current score: ${Bejeweled.score}\nCurrent combo: ${Bejeweled.combo}`);
+    Screen.render();
   }
 
   static createGrid(rows, cols)
@@ -73,24 +79,29 @@ class Bejeweled {
   }
 
   static refreshGrid(grid) {
+    Bejeweled.combo = 1;
     while (Bejeweled.checkForAnyMatches(grid))
     {
-      Bejeweled.clearAllMatches(grid);
+      Bejeweled.clearAllMatches(grid, Bejeweled.combo);
       Bejeweled.sleep(200, grid);
       Bejeweled.dropEmojis(grid);
       Bejeweled.sleep(200, grid);
       Bejeweled.refillGrid(grid);
       Bejeweled.sleep(200, grid);
+      Bejeweled.combo++;
     }
+    // adjust combo to display without combo increase where checkForAnyMatches failed
+    Bejeweled.combo--;
   }
 
-  static clearAllMatches(grid)
+  static clearAllMatches(grid, combo)
   {
     let allMatches = Bejeweled.getAllMatches(grid);
     for (let i = 0; i < allMatches.length; i++)
     {
       grid[allMatches[i].row][allMatches[i].col] = "  ";
     }
+    Bejeweled.score += allMatches.length * combo;
   }
 
   static getAllMatches(grid) {
