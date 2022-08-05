@@ -67,6 +67,7 @@ class Bejeweled {
         Screen.setGrid(i, j, currentEmoji);
       }
     }
+    Bejeweled.sleep(200, initialGrid);
     Bejeweled.refreshGrid(initialGrid);
     return initialGrid;
   }
