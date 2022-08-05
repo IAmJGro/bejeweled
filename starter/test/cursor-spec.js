@@ -90,22 +90,4 @@ describe ('Cursor', function () {
     });
   });
 
-  /*context("should swap valid pieces", () => {
-    let game = new Bejeweled();
-    swapSpy = chai.spy.on(game, "swap");
-    let grid = game.grid;
-    grid = [[game.emojis[0], game.emojis[0], game.emojis[1], game.emojis[2]],
-            [game.emojis[3], game.emojis[2], game.emojis[0], game.emojis[3]],
-            [game.emojis[3], game.emojis[2], game.emojis[0], game.emojis[3]],
-            [game.emojis[0], game.emojis[0], game.emojis[1], game.emojis[2]]];
-
-    game.cursor.row = 1;
-    game.cursor.col = 2;
-    game.cursor.select();
-    game.cursor.up();
-    game.cursor.select();
-    expect(swapSpy).to.have.been.called;
-  });*/
-
-
 });

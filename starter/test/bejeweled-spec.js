@@ -76,51 +76,33 @@ describe ('Bejeweled', function () {
               [Bejeweled.emojis[0], Bejeweled.emojis[0], Bejeweled.emojis[1], Bejeweled.emojis[2]]];
     });
 
-    it("should accept a valid swap creating a horizontal match", () => {
+    it("should accept a valid swap", () => {
       expect(Bejeweled.trySwap(grid, {row: 0, col: 2}, {row: 1, col: 2})).to.be.true;
       expect(Bejeweled.trySwap(grid, {row: 0, col: 1}, {row: 0, col: 2})).to.be.true;
-    });
-/*
-    it("should accept a valid swap creating a vertical match", () => {
-      expect(Bejeweled.trySwap(game.grid, {row: 0, col: 1}, {row: 0, col: 2})).to.be.true;
-      game.swap({row: 0, col: 2}, {row: 1, col: 2});
-      expect(game.clearMatches()).to.be.greaterThan(0);
-      expect(game.emojis.includes(grid[0][2])).to.be.true;
     });
 
 
     it("should reject an invalid swap", () => {
-      expect(Bejeweled.trySwap(game.grid, {row: 0, col: 0}, {row: 1, col: 1})).to.be.false;
+      expect(Bejeweled.trySwap(grid, {row: 0, col: 0}, {row: 1, col: 1})).to.be.false;
     });
 
     it("should reject a valid swap creating no match", () => {
-      expect(Bejeweled.trySwap(game.grid, {row: 0, col: 0}, {row: 0, col: 0})).to.be.false;
+      expect(Bejeweled.trySwap(grid, {row: 0, col: 0}, {row: 0, col: 0})).to.be.false;
     });
-*/
-  });
-/*
-  it ("should create combos", () => {
-    grid = [[game.emojis[0], game.emojis[0], game.emojis[1], game.emojis[2]],
-            [game.emojis[3], game.emojis[0], game.emojis[0], game.emojis[1]],
-            [game.emojis[1], game.emojis[1], game.emojis[2], game.emojis[0]],
-            [game.emojis[0], game.emojis[0], game.emojis[1], game.emojis[2]]];
-
-    expect(Bejeweled.trySwap(game.grid, {row: 2, col: 2}, {row: 3, col: 2})).to.be.true;
-    game.swap({row: 2, col: 2}, {row: 3, col: 2});
-    expect(game.clearMatches()).to.be.greaterThan(1);
-    expect(game.emojis.includes(grid[0][2])).to.be.true;
   });
 
   // Add tests to check if there are no possible valid moves
 
   it ("should be able to detect no valid moves", () => {
-    grid = [[game.emojis[0], game.emojis[1], game.emojis[2], game.emojis[3]],
-            [game.emojis[4], game.emojis[5], game.emojis[0], game.emojis[1]],
-            [game.emojis[2], game.emojis[3], game.emojis[4], game.emojis[5]],
-            [game.emojis[0], game.emojis[1], game.emojis[2], game.emojis[3]]];
-    expect(game.anyMoves()).to.equal(false);
+    grid = [[Bejeweled.emojis[0], Bejeweled.emojis[1], Bejeweled.emojis[2], Bejeweled.emojis[3]],
+            [Bejeweled.emojis[4], Bejeweled.emojis[5], Bejeweled.emojis[0], Bejeweled.emojis[1]],
+            [Bejeweled.emojis[2], Bejeweled.emojis[3], Bejeweled.emojis[4], Bejeweled.emojis[5]],
+            [Bejeweled.emojis[0], Bejeweled.emojis[1], Bejeweled.emojis[2], Bejeweled.emojis[3]]];
+    expect(Bejeweled.anyMoves(grid)).to.equal(false);
+    grid = [[Bejeweled.emojis[0], Bejeweled.emojis[1], Bejeweled.emojis[2], Bejeweled.emojis[3]],
+            [Bejeweled.emojis[0], Bejeweled.emojis[5], Bejeweled.emojis[0], Bejeweled.emojis[1]],
+            [Bejeweled.emojis[2], Bejeweled.emojis[3], Bejeweled.emojis[4], Bejeweled.emojis[5]],
+            [Bejeweled.emojis[0], Bejeweled.emojis[1], Bejeweled.emojis[2], Bejeweled.emojis[3]]];
+    expect(Bejeweled.anyMoves(grid)).to.equal(true);
   });
-*/
-
-
 });

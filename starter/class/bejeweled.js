@@ -15,7 +15,7 @@ class Bejeweled {
     Screen.addCommand('a', 'move cursor left', this.cursor.left);
     Screen.addCommand('s', 'move cursor down', this.cursor.down);
     Screen.addCommand('d', 'move cursor right', this.cursor.right);
-    Screen.addCommand('e', 'select jewel', this.select);
+    Screen.addCommand('e', 'select jewel or swap jewel with selected jewel', this.select);
 
     // Initialize this
     this.grid = Bejeweled.createGrid(8, 8);
@@ -29,11 +29,16 @@ class Bejeweled {
     if (this.cursor.selected != null)
     {
       Bejeweled.swap(this.grid, this.cursor.selected, {row: this.cursor.row, col: this.cursor.col});
+      if (!Bejeweled.anyMoves(this.grid))
+      {
+        Screen.setQuitMessage("\nNo moves available - Game Over!\nThank you for playing! \nGoodbye.\n")
+        Screen.quit();
+      }
     }
     this.cursor.select();
   }
 
-  static emojis = ["🥝", "🍓", "🥥", "🍇", "🍊", "🍋"];
+  static emojis = ["🥝", "🍓", "🥥", "🍇", "🍊", "🍋", "👾", "🦊"];
 
   static score = 0;
 
@@ -74,7 +79,7 @@ class Bejeweled {
 
   static getRandomEmoji()
   {
-    let emojiNumber = Math.floor(Math.random() * 6);
+    let emojiNumber = Math.floor(Math.random() * Bejeweled.emojis.length);
     return Bejeweled.emojis[emojiNumber];
 
   }
@@ -237,7 +242,6 @@ class Bejeweled {
       grid[first.row][first.col] = secondEmoji;
       grid[second.row][second.col] = firstEmoji;
 
-      //Screen.setMessage(`firstEmoji: ${testEmoji1} ${tempFirstEmoji} ${first.row} ${first.col} \nsecondEmoji: ${testEmoji2} ${tempSecondEmoji} ${second.row} ${second.col}`);
       // update screen
       Screen.setGrid(first.row, first.col, secondEmoji);
       Screen.setGrid(second.row, second.col, firstEmoji);
@@ -314,6 +318,35 @@ class Bejeweled {
     do {
       currentDate = Date.now();
     } while(currentDate - milliseconds < startDate)
+  }
+
+  static anyMoves(grid)
+  {
+    // check for horizontal moves
+    for (let row = 0; row < grid.length; row++)
+    {
+      for (let col = 0; col < grid[row].length - 1; col++)
+      {
+        if (Bejeweled.trySwap(grid, {row: row, col: col}, {row: row, col: col + 1}))
+        {
+          return true;
+        }
+      }
+    }
+    //check for vertical moves
+    for (let col = 0; col < grid[0].length; col++)
+    {
+      for (let row = 0; row < grid.length - 1; row++)
+      {
+        if (Bejeweled.trySwap(grid, {row: row, col: col}, {row: row + 1, col: col}))
+        {
+          return true;
+        }
+      }
+    }
+
+    // if no potential swaps return false
+    return false;
   }
 }
 
